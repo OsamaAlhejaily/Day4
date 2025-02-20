@@ -1,6 +1,3 @@
-// function greet(name:string) {
-//     return `Hello, ${name}!`; // ✅ Use backticks (`) instead of single quotes
-// }
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,54 +34,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-// console.log(greet("Osama"));
-// let message: string = "Osama"
-// // structure 
-// interface Car {
-//     brand1 : string;
-//     model: string;
-//     year: number;
-//     }
-//     interface User {
-//         name: string;
-//         age: number;
-//         isAdmin?: boolean; // Optional property
-//       }
-//       const username: User = { name: "Fatima", age: 30 };
-//       //Using Interfaces in Functions
-//       function printUser(username: User) {
-//         console.log(`${username.name} is ${username.age} years old`);
-//       }
-//       // ✅ Call the function to display output
-//       printUser(username);
-//       let number : number[] = [1,2,3,4];
-//       let person :[string,number] = ["osama",23];
-//       enum Role {admin,user,guest};
-//       let myRole : Role = Role.admin;
-//       class Car{
-//         brand:string;
-//         constructor(brand:string){
-//             this.brand = brand;
-//         }
-//         drive(){
-//             console.log(`My car brand is ${this.brand}`);
-//         }
-//       }
-//       function identity<T>(value: T): T {
-//         return value;
-//       }
-//       console.log(identity<string>("Hello")); // Output: "Hello"
-//       console.log(identity<number>(123)); // Output: 123
-function capitalizeWords(word) {
-    if (word == "")
+// Section:1.1
+function capitalizeWords(sentence) {
+    if (sentence === "")
         return "Please enter a word";
-    else
-        return word.toUpperCase();
+    return sentence
+        .split(" ")
+        .map(function (word) { return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(); })
+        .join(" ");
 }
-console.log(capitalizeWords(""));
-////////////////////////////////////////////////////////////////
+console.log(capitalizeWords("hello everyone I'm osama")); // Output: "Hello World"
+// Section:1.2
 function isValidNumber(value) {
-    if (typeof value == "number")
+    if (typeof value === "number")
         return true;
     else
         return false;
@@ -92,12 +54,11 @@ function isValidNumber(value) {
 console.log(isValidNumber(5));
 console.log(isValidNumber("Osama"));
 function createUser(user) {
-    user.name == "Osama";
     return "User ".concat(user.name, " created successfully");
 }
-var user = { name: "Osama", id: 1, email: "Osama@gmail.com", isAdmin: true };
+var user = { name: "Osama", id: 1, email: "Osama@gmail.com" };
 console.log(createUser(user));
-///////////////////////////////////////////////////////////////////////
+// Section:3
 var Product = /** @class */ (function () {
     function Product(name, price, category) {
         this.name = name;
@@ -105,13 +66,13 @@ var Product = /** @class */ (function () {
         this.category = category;
     }
     Product.prototype.getDiscountedPrice = function (discount) {
-        return (this.price - discount);
+        return this.price - discount;
     };
     return Product;
 }());
 var veggies = new Product("Potato", 10, "Food");
 console.log(veggies.getDiscountedPrice(5));
-/////////////////////////////////////////////////////////////////////////////
+// Section:4
 function filterArray(array, predicate) {
     var result = [];
     for (var i = 0; i < array.length; i++) {
@@ -122,34 +83,104 @@ function filterArray(array, predicate) {
     return result;
 }
 console.log(filterArray([1, 2, 3, 4], function (num) { return num % 2 === 0; }));
-console.log(filterArray(["apple", "banana"], function (word) { return (typeof word === "string"); }));
-/////////////////////////////////////////////////////////////////////////////
+console.log(filterArray(["apple", "banana"], function (word) { return typeof word === "string"; }));
+// Section:5 - Fetch Users Function
 function fetchUsers() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, data, users, i;
+        var response, data, users, i, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch("https://jsonplaceholder.typicode.com/users")];
+                case 0:
+                    console.log("waiting to be fetched");
+                    return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 2000); })];
                 case 1:
+                    _a.sent();
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 5, , 6]);
+                    return [4 /*yield*/, fetch("https://jsonplaceholder.typicode.com/users")];
+                case 3:
                     response = _a.sent();
                     if (!response.ok) {
                         throw new Error("HTTP Error: ".concat(response.status));
                     }
                     return [4 /*yield*/, response.json()];
-                case 2:
+                case 4:
                     data = _a.sent();
                     users = [];
                     for (i = 0; i < data.length; i++) {
                         users.push({
                             id: data[i].id,
                             name: data[i].name,
-                            email: data[i].email,
+                            email: data[i].email
                         });
                     }
-                    console.log(users);
+                    console.table(users);
+                    console.log("done fetching");
+                    return [3 /*break*/, 6];
+                case 5:
+                    error_1 = _a.sent();
+                    console.log("Error in fetching data");
+                    return [3 /*break*/, 6];
+                case 6: return [2 /*return*/];
+            }
+        });
+    });
+}
+// BONUS CHALLENGE - Password Validation
+var weakPasswords = ["password", "123456", "qwerty"];
+function validatePassword(password) {
+    if (password.length < 8) {
+        console.log("Password must be at least 8 characters.");
+        return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+        console.log("Password must contain an uppercase letter.");
+        return false;
+    }
+    if (!/[a-z]/.test(password)) {
+        console.log("Password must contain a lowercase letter.");
+        return false;
+    }
+    if (!/\d/.test(password)) {
+        console.log("Password must contain a number.");
+        return false;
+    }
+    if (!/[^A-Za-z0-9]/.test(password)) {
+        console.log("Password must contain a special character.");
+        return false;
+    }
+    // Exact match check: only reject if the whole password matches a weak one
+    if (weakPasswords.indexOf(password.toLowerCase()) !== -1) {
+        console.log("Password is too common.");
+        return false;
+    }
+    console.log("Password is strong!");
+    return true;
+}
+// Main function: Wait for fetchUsers to finish, then run password tests.
+function main() {
+    return __awaiter(this, void 0, void 0, function () {
+        var passwords;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetchUsers()];
+                case 1:
+                    _a.sent(); // Wait until users are fetched
+                    console.log("\n--- Running Password Validation Tests ---");
+                    passwords = [
+                        "Password123!",
+                        "12345678",
+                        "qwerty",
+                        "Admin123$",
+                    ];
+                    passwords.forEach(function (pwd) {
+                        console.log("\nTesting \"".concat(pwd, "\":"));
+                        validatePassword(pwd);
+                    });
                     return [2 /*return*/];
             }
         });
     });
 }
-fetchUsers();
+main();
